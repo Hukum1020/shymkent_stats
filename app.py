@@ -4,6 +4,8 @@ from flask import Flask, jsonify, render_template
 from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+from dateutil import parser
+from zoneinfo import ZoneInfo  # встроенный модуль в Python 3.9+
 
 app = Flask(__name__)
 
@@ -46,9 +48,26 @@ def get_stats():
         return jsonify({'error': 'Required columns not found'})
 
     total = len(rows)
-    today_str = datetime.now().strftime('%Y-%m-%d')
     checkin_count = sum(1 for row in rows if len(row) > checkin_index and row[checkin_index].strip())
-    today_count = sum(1 for row in rows if len(row) > sent_index and row[sent_index].startswith(today_str))
+
+    # Часовые пояса
+    almaty_tz = ZoneInfo("Asia/Almaty")
+    moscow_tz = ZoneInfo("Europe/Moscow")
+
+    now_almaty = datetime.now(almaty_tz)
+
+    today_count = 0
+    for row in rows:
+        if len(row) > sent_index:
+            try:
+                sent_dt = parser.parse(row[sent_index])
+                if sent_dt.tzinfo is None:
+                    sent_dt = sent_dt.replace(tzinfo=moscow_tz)
+                sent_dt_almaty = sent_dt.astimezone(almaty_tz)
+                if sent_dt_almaty.date() == now_almaty.date():
+                    today_count += 1
+            except Exception:
+                continue
 
     return jsonify({
         'total': total,
