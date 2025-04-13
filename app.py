@@ -6,7 +6,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-SERVICE_ACCOUNT_FILE = 'credentials.json'  # замените на свой файл
+SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_JSON")
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
