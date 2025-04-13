@@ -3,35 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Статистика гостей</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Montserrat, Arial, sans-serif;
-    background: linear-gradient(to bottom, #3E5990, #936D56);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    color: white;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Montserrat, Arial, sans-serif;
+      background: linear-gradient(to bottom, #3E5990, #936D56);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-  .stat {
-    font-size: 1.5em;
-    margin: 1em 0;
-  }
-</style>
+    main {
+      padding: 2em;
+    }
 
+    h1 {
+      margin-top: 0;
+      font-size: 2em;
+    }
+
+    .stat {
+      font-size: 1.5em;
+      margin: 1em 0;
+    }
+  </style>
 </head>
 <body>
-  <h1>Статистика мероприятия</h1>
-  <div class="stat" id="total">Загрузка...</div>
-  <div class="stat" id="checkin"></div>
-  <div class="stat" id="today"></div>
+  <main>
+    <h1>Статистика мероприятия</h1>
+    <div class="stat" id="total">Загрузка...</div>
+    <div class="stat" id="checkin"></div>
+    <div class="stat" id="today"></div>
+  </main>
 
   <script>
     async function fetchStats() {
@@ -44,12 +54,12 @@
         document.getElementById('today').textContent = `Зарегистрировались сегодня: ${data.today}`;
       } catch (err) {
         console.error("Ошибка загрузки:", err);
-        document.getElementById('total').textContent = "Ошибка загрузки";
+        document.getElementById('total').textContent = "Ошибка загрузки данных";
       }
     }
 
-    fetchStats();
-    setInterval(fetchStats, 60000); // обновление каждую минуту
+    fetchStats();                  // начальный вызов
+    setInterval(fetchStats, 10000); // каждые 10 секунд
   </script>
 </body>
 </html>
