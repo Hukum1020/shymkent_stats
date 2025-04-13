@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Статистика гостей</title>
+  <style>
+    body {
+      font-family: Montserrat, Arial, sans-serif;
+      background: linear-gradient(to bottom, #3E5990, #936D56);
+      color: white;
+      text-align: center;
+      padding: 2em;
+    }
+    .stat {
+      font-size: 1.5em;
+      margin: 1em 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Статистика мероприятия</h1>
+  <div class="stat" id="total">Загрузка...</div>
+  <div class="stat" id="checkin"></div>
+  <div class="stat" id="today"></div>
+
+  <script>
+    async function fetchStats() {
+      try {
+        const res = await fetch("/stats");
+        const data = await res.json();
+
+        document.getElementById('total').textContent = `Всего зарегистрировано: ${data.total}`;
+        document.getElementById('checkin').textContent = `Пришли на мероприятие: ${data.checkin}`;
+        document.getElementById('today').textContent = `Зарегистрировались сегодня: ${data.today}`;
+      } catch (err) {
+        console.error("Ошибка загрузки:", err);
+        document.getElementById('total').textContent = "Ошибка загрузки";
+      }
+    }
+
+    fetchStats();
+    setInterval(fetchStats, 60000); // обновление каждую минуту
+  </script>
+</body>
+</html>
