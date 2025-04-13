@@ -8,7 +8,7 @@ app = Flask(__name__)
 SERVICE_ACCOUNT_FILE = 'credentials.json'  # замените на свой файл
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-SPREADSHEET_ID = 'ВСТАВЬ_СЮДА_ID_ТВОЕЙ_ТАБЛИЦЫ'
+SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
 RANGE = 'A1:L'
 
 creds = service_account.Credentials.from_service_account_file(
