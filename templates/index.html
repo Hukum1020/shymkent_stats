@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Статистика гостей</title>
   <style>
     html, body {
@@ -26,12 +27,21 @@
 
     h1 {
       margin-top: 0;
-      font-size: 2em;
+      font-size: 6vw; /* адаптивный размер */
     }
 
     .stat {
-      font-size: 1.5em;
+      font-size: 5vw; /* тоже адаптивный */
       margin: 1em 0;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2.5em;
+      }
+      .stat {
+        font-size: 1.8em;
+      }
     }
   </style>
 </head>
@@ -58,8 +68,8 @@
       }
     }
 
-    fetchStats();                  // начальный вызов
-    setInterval(fetchStats, 10000); // каждые 10 секунд
+    fetchStats();
+    setInterval(fetchStats, 10000); // обновление каждые 10 секунд
   </script>
 </body>
 </html>
